@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Todo } from '../models';
 import { Subject } from 'rxjs/internal/Subject';
@@ -13,13 +13,24 @@ export class TodoComponent implements OnInit {
   form!:FormGroup
   taskArray!:FormArray
 
+  @Input()
+  todo!: Todo
+
   @Output()
-  onNewTodo = new Subject<Todo>
+  onNewTodo = new Subject<Todo>()
 
   constructor(public fb:FormBuilder) {}
 
   ngOnInit():void {
+    console.info('restoring todo: ', this.todo)
     this.form = this.createForm()
+  }
+
+  processTodo() {
+    const t:Todo=this.form.value
+    t.dueDate = new Date(this.form.get('dueDate')?.value)
+    this.form = this.createForm()
+    this.onNewTodo.next(t)
   }
 
   private createForm():FormGroup {
@@ -33,14 +44,14 @@ export class TodoComponent implements OnInit {
 
   processForm() {
     const todo = this.form.value as Todo
-    //console.info(">>> todo: ",todo)
+    console.info(">>> todo: ",todo)
     this.form.reset()
   }
 
   private createTask():FormGroup {
     return this.fb.group({
       taskName: this.fb.control<string>('',Validators.required),
-      priority: this.fb.control<string>('Low',Validators.required)
+      priority: this.fb.control<string>('low',Validators.required)
     })
   }
 

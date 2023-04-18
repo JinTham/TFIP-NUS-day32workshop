@@ -28,7 +28,13 @@
         <table formArrayName="tasks">
             <tr *ngFor="let t of taskArray.controls; let idx = index" [formGroupName]="idx">
                 <td><input type="text" placeholder="task name" formControlName="taskName"></td>
-                <td><input type="text" placeholder="Low/Med/High" formControlName="priority"></td>
+                <td>
+                    <select formControlName="priority">
+                        <option value="low">Low</option>
+                        <option value="med">Med</option>
+                        <option value="high">High</option>
+                    </select>
+                </td>
                 <td><button (click)="deleteTask(idx)">X</button></td>
             </tr>
         </table>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Todo } from './models';
 
 @Component({
@@ -6,13 +6,27 @@ import { Todo } from './models';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'day32workshop';
 
-  todos:Todo[] = []
+  //todos:Todo[] = []
+
+  todo!:Todo
+
+  ngOnInit(): void {
+    const d = localStorage.getItem('todo')
+    if (!!d)
+      return
+    //@ts-ignore
+    const t:any = JSON.parse(d)
+    t['dueDate'] = new Date(t['dueDate'])
+    this.todo = {...t}
+    console.info('>>> t: ', this.todo)
+  }
 
   processNewTodo(todo:Todo) {
-    console.info(todo)
-    this.todos.unshift(todo)
+    console.info('>>>> todo: ', todo)
+    //this.todos.unshift(todo)
+    localStorage.setItem('todo',JSON.stringify(todo))
   }
 }
