@@ -9,13 +9,13 @@ import { Todo } from './models';
 export class AppComponent implements OnInit {
   title = 'day32workshop';
 
-  //todos:Todo[] = []
+  todos:Todo[] = []
 
   todo!:Todo
 
   ngOnInit(): void {
     const d = localStorage.getItem('todo')
-    if (!!d)
+    if (!d)
       return
     //@ts-ignore
     const t:any = JSON.parse(d)
@@ -25,8 +25,8 @@ export class AppComponent implements OnInit {
   }
 
   processNewTodo(todo:Todo) {
-    console.info('>>>> todo: ', todo)
-    //this.todos.unshift(todo)
+    console.info('>>>> todooo: ', todo)
+    this.todos.unshift(todo)
     localStorage.setItem('todo',JSON.stringify(todo))
   }
 }

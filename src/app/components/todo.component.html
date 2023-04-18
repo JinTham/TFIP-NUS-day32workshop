@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="processForm()">
+<form [formGroup]="form" (ngSubmit)="processTodo()">
     <table>
         <tr>
             <td>Name: </td>
@@ -35,7 +35,7 @@
                         <option value="high">High</option>
                     </select>
                 </td>
-                <td><button (click)="deleteTask(idx)">X</button></td>
+                <td><button type="button" (click)="deleteTask(idx)">X</button></td>
             </tr>
         </table>
     </div>

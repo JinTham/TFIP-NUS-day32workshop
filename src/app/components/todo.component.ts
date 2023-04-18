@@ -19,7 +19,7 @@ export class TodoComponent implements OnInit {
   @Output()
   onNewTodo = new Subject<Todo>()
 
-  constructor(public fb:FormBuilder) {}
+  constructor(private fb:FormBuilder) {}
 
   ngOnInit():void {
     console.info('restoring todo: ', this.todo)
@@ -37,21 +37,15 @@ export class TodoComponent implements OnInit {
     this.taskArray = this.fb.array([])
     return this.fb.group({
       name: this.fb.control<string>('',[Validators.required]),
-      dueDate: this.fb.control<string>('',Validators.required),
+      dueDate: this.fb.control<string>('',[Validators.required]),
       tasks: this.taskArray
     })
   }
 
-  processForm() {
-    const todo = this.form.value as Todo
-    console.info(">>> todo: ",todo)
-    this.form.reset()
-  }
-
   private createTask():FormGroup {
     return this.fb.group({
-      taskName: this.fb.control<string>('',Validators.required),
-      priority: this.fb.control<string>('low',Validators.required)
+      taskName: this.fb.control<string>('',[Validators.required]),
+      priority: this.fb.control<string>('low',[Validators.required])
     })
   }
 
