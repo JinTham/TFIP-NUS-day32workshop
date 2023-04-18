@@ -1,0 +1,40 @@
+<form [formGroup]="form" (ngSubmit)="processForm()">
+    <table>
+        <tr>
+            <td>Name: </td>
+            <td>
+                <input type="text" formControlName="name">
+                <span *ngIf="this.form.get('name')?.invalid && this.form.get('name')?.dirty">Please enter your name</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Due Date: </td>
+            <td>
+                <input type="date" formControlName="dueDate">
+                <span *ngIf="this.form.get('dueDate')?.invalid && this.form.get('dueDate')?.dirty">Please select a date</span>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button type="submit" [disabled]="isFormInvalid()">Save</button>
+                <button type="button" (click)="addTask()">Add Task</button>
+            </td>
+        </tr>
+    </table>
+
+    <div *ngIf="taskArray.length>0; else noTask">
+        <h3>Tasks</h3>
+        <table formArrayName="tasks">
+            <tr *ngFor="let t of taskArray.controls; let idx = index" [formGroupName]="idx">
+                <td><input type="text" placeholder="task name" formControlName="taskName"></td>
+                <td><input type="text" placeholder="Low/Med/High" formControlName="priority"></td>
+                <td><button (click)="deleteTask(idx)">X</button></td>
+            </tr>
+        </table>
+    </div>
+</form>
+
+<ng-template #noTask>
+    <h3>No task has been added yet</h3>
+</ng-template>
